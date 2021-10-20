@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> 
+    <style>
+        input, button {
+            display: block;
+            width: 12rem;
+            margin: 3rem auto;
+        }
+    </style>
+</head>
+<body>
+    <input id="input" placeholder="search user"/>
+    <button id="btn" onclick="handleData() ">Show Names</button>
+    <div id="cont"></div>
+    <script>
+        var inpt = document.getElementById("input")
+        var btn = document.getElementById("btn")
+
+         function getData() {
+            return fetch("https://api.github.com/users")
+            .then((response) => response.json())
+        }
+
+        async function handleData() {
+            try {
+                var result = await getData()
+                console.log(result)
+                createPage(result)
+            }catch(err) {
+                //handle error
+            }
+        }
+        
+
+        function createPage(result) {
+                     
+            const container = document.getElementById("cont")  
+           
+                    for (let i = 0; i < result.length; i++) {
+                                                            
+                        //console.log(result.data[i])       
+                        const name = document.createElement("h3");
+                        if(inpt.value === result[i].login) {
+                            name.textContent = `Username: ${result[i].login}`
+                            container.append(name)
+                            inpt.value = ""
+                        }                    
+                    }
+               
+            }
+    </script>
+</body>
+</html>
