@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            font-size: 65%;
+        }
+        #btn {
+            display: block;
+            width: 20rem;
+            margin:2rem auto;
+        }
+        #cont a {
+            border: 1px solid black;
+            font-size: 16px;
+            padding: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn" onclick="handleData()">Login User</button>
+    <div id="cont"></div>
+    <script>
+        function getData() {
+            return fetch("https://reqres.in/api/login")
+            .then((response) => response.json())
+        }
+
+        async function handleData() {
+            try {
+                var result = await getData()
+                // console.log(result.data[1].name)
+                createPage(result)
+            }catch(err) {
+                //handle error
+            }
+        }
+
+        
+        var i = 0;
+        function createPage(result) {
+            
+            
+            const container = document.getElementById("cont")  
+            if(container.innerHTML) {
+                container.innerHTML = null
+            }              
+                    console.log(result.data[i])       
+                    const name = document.createElement("h2");
+                    name.textContent = `Name: ${result.data[i].name}`
+
+                    const year = document.createElement("h3")
+                    year.textContent = `Year: ${result.data[i].year}`
+
+                    const login = document.createElement("button")
+                    login.textContent = "Login"
+
+                    var a = document.createElement("a");
+                    a.href = "home.html";
+                    a.textContent = "Login"
+                    login.append(a)
+                    container.append(name, year, a)
+                    i++;
+               
+            }
+        
+    </script>
+</body>
+</html>
